@@ -1,23 +1,44 @@
-import logo from './logo.svg';
+import logo from './app_logo.png';
 import './App.css';
+import { useState } from 'react';
+import { getWeatherByCity } from './api';
+import SearchBar from './components/SearchBar.jsx';
+import WeatherDisplay from './components/WeatherDisplay.jsx';
+
+
 
 function App() {
+  console.log("App renderuje się!");
+  
+  const [city, setCity] = useState('');
+  const [weather, setWeather] = useState(null);
+  const [error, setError] = useState('');
+
+  const handleSearch = async () => {
+    try{
+      const data = await getWeatherByCity(city);
+      setWeather(data);
+      setError("");
+    } catch (err) {
+      setWeather(null);
+      setError(err.message);
+    }
+  };
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header>Weather Checker</header>
+      <img src={logo} className='app_logo' alt="logo"/>
+      <SearchBar 
+        city={city}
+        setCity={setCity}
+        onSearch={handleSearch}
+      />
+      {error && <p style={{color: "red" }}>{error}</p>}
+      {weather && <WeatherDisplay data={weather} />}
+      <p>
+        There should be a weather checker here.
+      </p>
     </div>
   );
 }
