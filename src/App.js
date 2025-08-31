@@ -8,7 +8,6 @@ import WeatherDisplay from './components/WeatherDisplay.jsx';
 
 
 function App() {
-  console.log("App renderuje się!");
   
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
@@ -36,9 +35,6 @@ function App() {
       />
       {error && <p style={{color: "red" }}>{error}</p>}
       {weather && <WeatherDisplay data={weather} />}
-      <p>
-        There should be a weather checker here.
-      </p>
     </div>
   );
 }
